@@ -6,6 +6,9 @@ public class Monster : MonoBehaviour
     Animator anim;
     Rigidbody2D rb;
 
+    private bool isMove = true;
+    GameObject targetBox;
+    
     void Awake()
     {
         rb = GetComponent<Rigidbody2D>();
@@ -20,19 +23,33 @@ public class Monster : MonoBehaviour
     {
         if (collision.gameObject.layer == LayerMask.NameToLayer("Box"))
         {
+            targetBox = collision.gameObject;
+            Debug.Log("Collided with Box");
             anim.SetBool("IsAttacking", true);
         }
     }
 
     void OnAttack()
     {
-        Debug.Log("ATTACK");
+        if (targetBox != null)
+        {
+            var health = targetBox.GetComponent<BoxHP>();
+            Debug.Log(health);
+            if (health != null)
+            {
+                Debug.Log("damage Box");
+                health.TakeDamage(20); // 10만큼 데미지
+                isMove = false;
+            }
+        }
     }
 
     void FixedUpdate()
     {
-        float heroX = GameManager.Instance.Hero.transform.position.x;
-        float myX = rb.position.x;
-        rb.velocity = new Vector2(-1 * moveSpeed, rb.velocity.y);
+        if(isMove){
+            float heroX = GameManager.Instance.Hero.transform.position.x;
+            float myX = rb.position.x;
+            rb.velocity = new Vector2(-1 * moveSpeed, rb.velocity.y);
+        }
     }
 }
