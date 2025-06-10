@@ -214,6 +214,7 @@ GameObject:
   - component: {fileID: 3156793756194860592}
   - component: {fileID: 4101077138503017489}
   - component: {fileID: -3419655002682141957}
+  - component: {fileID: 4570580716485483966}
   m_Layer: 9
   m_Name: Hero
   m_TagString: Untagged
@@ -380,3 +381,38 @@ MonoBehaviour:
     m_Bits: 64
   mainCamera: {fileID: 0}
   gunTransform: {fileID: 9115941406881483208}
+--- !u!70 &4570580716485483966
+CapsuleCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8958240697474582917}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_ForceSendLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ForceReceiveLayers:
+    serializedVersion: 2
+    m_Bits: 4023
+  m_ContactCaptureLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_CallbackLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0.5853371, y: 0.81132233}
+  m_Size: {x: 2.1778383, y: 0.37735873}
+  m_Direction: 1
