@@ -22,6 +22,8 @@ public class Monster : MonoBehaviour
 
     void Start()
     {
+		maxHP = 50;
+		currentHP = maxHP;
     }
     
     void OnCollisionEnter2D(Collision2D collision)
@@ -48,6 +50,7 @@ public class Monster : MonoBehaviour
             if (targetBox == collision.gameObject)
                 targetBox = null; // 현재 타겟 해제
             anim.SetBool("IsAttacking", false);
+			isMove = true;
         }
 
 		if (collision.gameObject.layer == LayerMask.NameToLayer("Hero"))
@@ -55,6 +58,7 @@ public class Monster : MonoBehaviour
             if (targetBox == collision.gameObject)
                 targetBox = null; // 현재 타겟 해제
             anim.SetBool("IsAttacking", false);
+			isMove = true;
         }
     }
 

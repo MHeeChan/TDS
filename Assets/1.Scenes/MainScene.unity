@@ -397,7 +397,7 @@ MonoBehaviour:
   objectInfos:
   - objectName: Bullet
     perfab: {fileID: 1235546230091340590, guid: 9e9cef35ef5ea4d47a038b2963a4e52a, type: 3}
-    count: 0
+    count: 5
 --- !u!1001 &354004231
 PrefabInstance:
   m_ObjectHideFlags: 0

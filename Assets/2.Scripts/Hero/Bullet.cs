@@ -4,7 +4,7 @@ using UnityEngine;
 public class Bullet : PoolAble
 {
     public string weaponName { get; set; } = "Bullet";
-
+    private bool _returned = false;
     public bool BackUp { get; set; } = false;
     public float lifetime { get; set; } = 2.0f;
     public float spawnTime { get; set; }
@@ -25,20 +25,22 @@ public class Bullet : PoolAble
         spawnTime = Time.time;
         
         RectTransform rt = GetComponent<RectTransform>();
+        _returned = false;
         if (rt != null)
             rt.transform.localScale = new Vector2(Size, Size);
     }
 
     public virtual void Update()
     {
-        if (BackUp)
+        if (_returned || BackUp)
             return;
-        
-        // 생성된지 일정 시간이 지나면 삭제
+
+        // 수명 종료 시 반환
         if (Time.time - spawnTime > lifetime)
         {
-            // 오브젝트 풀에 반환
+            _returned = true;
             ReleaseObject();
+            return;
         }
         
         // 위쪽 방향으로 이동
@@ -53,6 +55,7 @@ public class Bullet : PoolAble
         if (other.gameObject.tag == "Monster")
         {
             other.gameObject.GetComponent<Monster>().TakeDamage(Damage);
+            _returned = true;
             ReleaseObject();
         }
     }
