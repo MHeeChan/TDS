@@ -8,6 +8,7 @@ public class Monster : MonoBehaviour
 
     private bool isMove = true;
     GameObject targetBox;
+    float maxAngle = 30f;
     
     void Awake()
     {
@@ -24,8 +25,18 @@ public class Monster : MonoBehaviour
         if (collision.gameObject.layer == LayerMask.NameToLayer("Box"))
         {
             targetBox = collision.gameObject;
-            Debug.Log("Collided with Box");
+            //Debug.Log("Collided with Box");
             anim.SetBool("IsAttacking", true);
+        }
+    }
+    
+    void OnCollisionExit2D(Collision2D collision)
+    {
+        if (collision.gameObject.layer == LayerMask.NameToLayer("Box"))
+        {
+            if (targetBox == collision.gameObject)
+                targetBox = null; // 현재 타겟 해제
+            anim.SetBool("IsAttacking", false);
         }
     }
 
@@ -51,5 +62,13 @@ public class Monster : MonoBehaviour
             float myX = rb.position.x;
             rb.velocity = new Vector2(-1 * moveSpeed, rb.velocity.y);
         }
+        
+        float angle = transform.eulerAngles.z;
+        if (angle > 180f) angle -= 360f;
+
+        if (angle > maxAngle)
+            rb.AddTorque(-50f); // 왼쪽으로 살짝 돌려주기 (값은 튜닝)
+        else if (angle < -maxAngle)
+            rb.AddTorque(50f); 
     }
 }
