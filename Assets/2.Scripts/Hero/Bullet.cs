@@ -37,7 +37,7 @@ public class Bullet : PoolAble
 
         // 수명 종료 시 반환
         if (Time.time - spawnTime > lifetime)
-        {
+        {   
             _returned = true;
             ReleaseObject();
             return;
@@ -51,12 +51,13 @@ public class Bullet : PoolAble
         direction = newDirection.normalized; // 방향 벡터를 정규화
     }
 
-    public virtual void OnCollisionEnter2D(Collision2D other) {
+    public virtual void OnTriggerEnter2D(Collider2D other) {
         if (other.gameObject.tag == "Monster")
         {
             other.gameObject.GetComponent<Monster>().TakeDamage(Damage);
+            if(!_returned)
+                ReleaseObject();
             _returned = true;
-            ReleaseObject();
         }
     }
 }

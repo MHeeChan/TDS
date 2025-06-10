@@ -26,21 +26,19 @@ public class Hero : MonoBehaviour
         // 1) 마우스 클릭이 있으면 클릭 위치로 즉시 발사
         if (Input.GetMouseButtonDown(0))
         {
-            // ① 화면 좌표를 월드 좌표로 변환
             Vector3 mousePos = Input.mousePosition;
-            // z값이 0이면 카메라 위치(z)가 보정되지 않아서 잘못된 좌표가 나올 수 있음
-            mousePos.z = -mainCamera.transform.position.z;
+            // z는 항상 카메라~월드 평면의 거리 (Hero가 z=0이면)
+            mousePos.z = Mathf.Abs(mainCamera.transform.position.z);
+
             Vector3 worldPoint = mainCamera.ScreenToWorldPoint(mousePos);
-            
+
             Vector3 dirG = (worldPoint - gunTransform.position).normalized;
             float angle = Mathf.Atan2(dirG.y, dirG.x) * Mathf.Rad2Deg;
-            gunTransform.rotation = Quaternion.Euler(0, 0, angle - 33f);
-            
-            // ② 영웅 위치에서 클릭된 위치까지의 방향 벡터 계산
+            gunTransform.rotation = Quaternion.Euler(0, 0, angle - 45f);
+
             Vector3 clickDir = (worldPoint - transform.position).normalized;
             dir = clickDir;
             clicked = true;
-            
         }
 
         // 2) 주기마다 자동 발사 (가장 가까운 적 방향으로)
@@ -62,7 +60,7 @@ public class Hero : MonoBehaviour
                 // 총을 autoDir 방향으로 회전
                 Vector3 dirG = autoDir; // gunTransform.position 대신 transform.position을 써도 무방
                 float angle = Mathf.Atan2(dirG.y, dirG.x) * Mathf.Rad2Deg;
-                gunTransform.rotation = Quaternion.Euler(0, 0, angle - 33f);
+                gunTransform.rotation = Quaternion.Euler(0, 0, angle- 45f);
 
                 FireAllWeapons(autoDir);
             }

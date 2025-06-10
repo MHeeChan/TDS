@@ -1,5 +1,6 @@
 using UnityEngine;
 using UnityEngine.UI;
+using System.Collections;
 
 public class Monster : MonoBehaviour
 {
@@ -7,12 +8,16 @@ public class Monster : MonoBehaviour
 	private double maxHP;
     private double currentHP;
     private bool isMove = true;    
-    float maxAngle = 30f;
+    float maxAngle = 15f;
+	float jumpCooldown = 1f;
+    float lastJumpTime = -10f;
 	[SerializeField] public Slider hpSlider;
     
 	Animator anim;
     Rigidbody2D rb;
 	GameObject targetBox;
+	private bool isJumping = false;
+	void ResetJump() => isJumping = false;
 
     void Awake()
     {
@@ -71,7 +76,7 @@ public class Monster : MonoBehaviour
             if (health != null)
             {
                 Debug.Log("damage Box");
-                health.TakeDamage(20); // 10만큼 데미지
+                health.TakeDamage(1); // 10만큼 데미지
                 isMove = false;
             }
         }
@@ -88,10 +93,56 @@ public class Monster : MonoBehaviour
         float angle = transform.eulerAngles.z;
         if (angle > 180f) angle -= 360f;
 
-        if (angle > maxAngle)
-            rb.AddTorque(-50f); // 왼쪽으로 살짝 돌려주기 (값은 튜닝)
-        else if (angle < -maxAngle)
-            rb.AddTorque(50f); 
+        // if (angle > maxAngle)
+        //     rb.AddTorque(-200f); // 왼쪽으로 살짝 돌려주기 (값은 튜닝)
+        // else if (angle < -maxAngle)
+        //     rb.AddTorque(200f); 
+
+		Collider2D[] hits = Physics2D.OverlapBoxAll(transform.position, new Vector2(1.0f, 1.0f), 0, LayerMask.GetMask("Monster"));
+
+        // 자기 자신 제외한 몬스터 수
+        int count = 0;
+        foreach (var col in hits)
+            if (col.gameObject != gameObject) count++;
+
+        //3마리 이상 겹치면, 쿨타임 체크 후 한 번만 점프
+        // if (count >= 1 && Time.time - lastJumpTime > jumpCooldown && isMove)
+        // {
+        //     Debug.Log("점프준비");
+        //     JumpRandom();
+        //     lastJumpTime = Time.time;
+        // }
+    }
+
+    // IEnumerator TemporaryIgnoreCollisionDuringJump(float duration = 1f)
+    // {
+    //     var collider = GetComponent<Collider2D>();
+    //
+    //     ForceSend/Receive에서 Monster 제거 (충돌 안 하게)
+    //     collider.forceSendLayers &= ~LayerMask.GetMask("Monster");
+    //     collider.forceReceiveLayers &= ~LayerMask.GetMask("Monster");
+    //
+    //     yield return new WaitForSeconds(duration);
+    //
+    //     다시 Monster 충돌 허용
+    //     collider.forceSendLayers |= LayerMask.GetMask("Monster");
+    //     collider.forceReceiveLayers |= LayerMask.GetMask("Monster");
+    // }
+    
+    private IEnumerator DelayedJump(float delay)
+    {
+        yield return new WaitForSeconds(delay);
+
+        rb.AddForce(0.1f * Vector2.up, ForceMode2D.Impulse);
+
+        //StartCoroutine(TemporaryIgnoreCollisionDuringJump()); // 점프 직후 충돌 해제
+    }
+    
+    public void JumpRandom()
+    {
+        float delay = Random.Range(0f, 5f); // 0~5초 사이 랜덤 시간
+        Debug.Log(delay + "초 후 점프");
+        StartCoroutine(DelayedJump(delay));
     }
 
 	public void TakeDamage(double damage)
