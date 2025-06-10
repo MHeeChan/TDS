@@ -1,18 +1,12 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Pool;
 
-public class PoolAble : MonoBehaviour
-{
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
+public abstract class PoolAble : MonoBehaviour {
+    public IObjectPool<GameObject> Pool { get; set; }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
+    public abstract void SetDirection(Vector3 direction);
+
+    public void ReleaseObject() {
+        Pool.Release(gameObject);
     }
 }

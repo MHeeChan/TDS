@@ -1,15 +1,19 @@
 using UnityEngine;
+using UnityEngine.UI;
 
 public class Monster : MonoBehaviour
 {
     public float moveSpeed = 2f;
-    Animator anim;
-    Rigidbody2D rb;
-
-    private bool isMove = true;
-    GameObject targetBox;
+	private double maxHP;
+    private double currentHP;
+    private bool isMove = true;    
     float maxAngle = 30f;
+	[SerializeField] public Slider hpSlider;
     
+	Animator anim;
+    Rigidbody2D rb;
+	GameObject targetBox;
+
     void Awake()
     {
         rb = GetComponent<Rigidbody2D>();
@@ -28,11 +32,25 @@ public class Monster : MonoBehaviour
             //Debug.Log("Collided with Box");
             anim.SetBool("IsAttacking", true);
         }
+	
+		if (collision.gameObject.layer == LayerMask.NameToLayer("Hero"))
+        {
+            targetBox = collision.gameObject;
+            //Debug.Log("Collided with Box");
+            anim.SetBool("IsAttacking", true);
+        }
     }
     
     void OnCollisionExit2D(Collision2D collision)
     {
         if (collision.gameObject.layer == LayerMask.NameToLayer("Box"))
+        {
+            if (targetBox == collision.gameObject)
+                targetBox = null; // 현재 타겟 해제
+            anim.SetBool("IsAttacking", false);
+        }
+
+		if (collision.gameObject.layer == LayerMask.NameToLayer("Hero"))
         {
             if (targetBox == collision.gameObject)
                 targetBox = null; // 현재 타겟 해제
@@ -70,5 +88,15 @@ public class Monster : MonoBehaviour
             rb.AddTorque(-50f); // 왼쪽으로 살짝 돌려주기 (값은 튜닝)
         else if (angle < -maxAngle)
             rb.AddTorque(50f); 
+    }
+
+	public void TakeDamage(double damage)
+    {
+        currentHP -= damage;
+        hpSlider.value = (float)(currentHP / maxHP);
+        if (currentHP <= 0)
+        {
+            Destroy(gameObject);
+        }
     }
 }
