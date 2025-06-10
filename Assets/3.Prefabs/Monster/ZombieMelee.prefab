@@ -15,6 +15,7 @@ GameObject:
   - component: {fileID: 2980842925938198114}
   - component: {fileID: 7429940452170266381}
   - component: {fileID: 5883072518109875222}
+  - component: {fileID: 3836813892681161546}
   m_Layer: 6
   m_Name: ZombieMelee
   m_TagString: Monster
@@ -120,7 +121,7 @@ BoxCollider2D:
   m_LayerOverridePriority: 0
   m_ForceSendLayers:
     serializedVersion: 2
-    m_Bits: 1655
+    m_Bits: 1143
   m_ForceReceiveLayers:
     serializedVersion: 2
     m_Bits: 4294967295
@@ -153,7 +154,7 @@ CapsuleCollider2D:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 319310827380095937}
-  m_Enabled: 0
+  m_Enabled: 1
   m_Density: 1
   m_Material: {fileID: 0}
   m_IncludeLayers:
@@ -161,14 +162,14 @@ CapsuleCollider2D:
     m_Bits: 0
   m_ExcludeLayers:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 64
   m_LayerOverridePriority: 0
   m_ForceSendLayers:
     serializedVersion: 2
-    m_Bits: 4294967295
+    m_Bits: 0
   m_ForceReceiveLayers:
     serializedVersion: 2
-    m_Bits: 4294967295
+    m_Bits: 1024
   m_ContactCaptureLayers:
     serializedVersion: 2
     m_Bits: 4294967295
@@ -178,9 +179,9 @@ CapsuleCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: -0.04496378, y: 0.022483416}
-  m_Size: {x: 0.42043096, y: 0.18560146}
-  m_Direction: 1
+  m_Offset: {x: -0.17136472, y: 0.4722123}
+  m_Size: {x: 0.45727056, y: 0.9653888}
+  m_Direction: 0
 --- !u!60 &5883072518109875222
 PolygonCollider2D:
   m_ObjectHideFlags: 0
@@ -200,7 +201,7 @@ PolygonCollider2D:
   m_LayerOverridePriority: 0
   m_ForceSendLayers:
     serializedVersion: 2
-    m_Bits: 3703
+    m_Bits: 3191
   m_ForceReceiveLayers:
     serializedVersion: 2
     m_Bits: 4294967295
@@ -225,12 +226,47 @@ PolygonCollider2D:
   m_AutoTiling: 0
   m_Points:
     m_Paths:
-    - - {x: 0.1199133, y: 0.05068636}
-      - {x: -0.2115913, y: 0.059197694}
+    - - {x: 0.064553104, y: 0.22906947}
+      - {x: -0.24849814, y: 0.23142937}
       - {x: -0.21305618, y: -0.064555526}
       - {x: 0.25302744, y: -0.064555645}
-      - {x: 0.16662377, y: -0.0007587075}
+      - {x: 0.20353061, y: 0.02999705}
   m_UseDelaunayMesh: 0
+--- !u!58 &3836813892681161546
+CircleCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 319310827380095937}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_ForceSendLayers:
+    serializedVersion: 2
+    m_Bits: 3191
+  m_ForceReceiveLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ContactCaptureLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_CallbackLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: -0.35, y: 0.5}
+  serializedVersion: 2
+  m_Radius: 0.05
 --- !u!1 &1517208054776804409
 GameObject:
   m_ObjectHideFlags: 0

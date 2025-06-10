@@ -27,7 +27,7 @@ public class Monster : MonoBehaviour
 
     void Start()
     {
-		maxHP = 50;
+		maxHP = 20;
 		currentHP = maxHP;
     }
     
@@ -76,7 +76,7 @@ public class Monster : MonoBehaviour
             if (health != null)
             {
                 Debug.Log("damage Box");
-                health.TakeDamage(1); // 10만큼 데미지
+                health.TakeDamage(3); // 10만큼 데미지
                 isMove = false;
             }
         }
@@ -151,6 +151,7 @@ public class Monster : MonoBehaviour
         hpSlider.value = (float)(currentHP / maxHP);
         if (currentHP <= 0)
         {
+            anim.SetBool("IsDead", true);
             Destroy(gameObject);
         }
     }
