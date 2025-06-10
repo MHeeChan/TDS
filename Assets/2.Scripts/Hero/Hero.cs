@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class Hero : MonoBehaviour
 {
@@ -10,14 +11,21 @@ public class Hero : MonoBehaviour
     [SerializeField] private LayerMask enemyLayer;            // 적 레이어
     [SerializeField] private Camera mainCamera;
     [SerializeField] private Transform gunTransform;
+	[SerializeField] public Slider hpSlider;
     private float lastDetectTime = 0f;
     private List<Transform> nearbyEnemies = new List<Transform>();
     bool clicked = false;
     Vector3 dir;
+	private double maxHP;
+	private double currentHP;
+
     void Start()
     {
         if (mainCamera == null)
             Debug.LogError("Main Camera가 설정되어 있지 않습니다!");
+
+		maxHP = 100;
+		currentHP = maxHP;
     }
 
     void Update()
@@ -52,7 +60,7 @@ public class Hero : MonoBehaviour
             if (nearest != null)
                 autoDir = (nearest.position - transform.position).normalized;
             else
-                autoDir = transform.up;  // 적 없으면 위 방향(기본)으로 발사
+                autoDir = transform.right;  // 적 없으면 위 방향(기본)으로 발사
             //FireAllWeapons(autoDir);
             
             if (!clicked)
@@ -103,5 +111,18 @@ public class Hero : MonoBehaviour
     {
         GameObject go = ObjectPoolManager.instance.GetGo("Bullet", direction);
         go.transform.position = transform.position;
+    }
+
+	public void TakeDamage(double damage)
+    {
+        currentHP -= damage;
+        hpSlider.value = (float)(currentHP / maxHP);
+        if (currentHP <= 0)
+        {
+			GameManager.Instance.isMove = false;
+			this.gameObject.SetActive(false);
+			mainCamera.GetComponent<AudioSource>().Stop();
+            //Destroy(gameObject);
+        }
     }
 }

@@ -16,6 +16,7 @@ public class Monster : MonoBehaviour
 	Animator anim;
     Rigidbody2D rb;
 	GameObject targetBox;
+    GameObject targetHero;
 	private bool isJumping = false;
 	void ResetJump() => isJumping = false;
 
@@ -42,7 +43,7 @@ public class Monster : MonoBehaviour
 	
 		if (collision.gameObject.layer == LayerMask.NameToLayer("Hero"))
         {
-            targetBox = collision.gameObject;
+            targetHero = collision.gameObject;
             //Debug.Log("Collided with Box");
             anim.SetBool("IsAttacking", true);
         }
@@ -60,8 +61,8 @@ public class Monster : MonoBehaviour
 
 		if (collision.gameObject.layer == LayerMask.NameToLayer("Hero"))
         {
-            if (targetBox == collision.gameObject)
-                targetBox = null; // 현재 타겟 해제
+            if (targetHero == collision.gameObject)
+                targetHero = null; // 현재 타겟 해제
             anim.SetBool("IsAttacking", false);
 			isMove = true;
         }
@@ -76,7 +77,19 @@ public class Monster : MonoBehaviour
             if (health != null)
             {
                 Debug.Log("damage Box");
-                health.TakeDamage(3); // 10만큼 데미지
+                health.TakeDamage(5);
+                isMove = false;
+            }
+        }
+        
+        if (targetHero != null)
+        {
+            var health = targetHero.GetComponent<Hero>();
+            Debug.Log(health);
+            if (health != null)
+            {
+                Debug.Log("damage Hero");
+                health.TakeDamage(10); // 10만큼 데미지
                 isMove = false;
             }
         }

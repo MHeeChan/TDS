@@ -9,7 +9,8 @@ public class GameManager : MonoBehaviour
     // Start is called before the first frame update
     [SerializeField] public GameObject Hero;
 	[SerializeField] public GameObject Truck;
-    bool isMove = true;
+    [SerializeField] public GameObject Lose;
+    public bool isMove = true;
 	[SerializeField] Rigidbody2D[] Trb;
     private LinkedList<Rigidbody2D> myList;
 	Rigidbody2D Hrb;	
@@ -56,6 +57,9 @@ public class GameManager : MonoBehaviour
 
     void Update()
     {
-        
+        if (!Hero.gameObject.activeSelf && !Lose.activeSelf)
+        {
+            Lose.gameObject.SetActive(true);
+        }
     }
 }
